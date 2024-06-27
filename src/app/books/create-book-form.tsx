@@ -1,0 +1,122 @@
+"use client";
+
+import {z} from "zod";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button"
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import {useMutation} from "convex/react";
+import {api} from "../../../convex/_generated/api";
+import {Id} from "../../../convex/_generated/dataModel";
+import {useToast} from "@/components/ui/use-toast";
+
+const formSchema = z.object({
+    title: z.string().min(2).max(100),
+    description: z.string().min(2).max(250),
+    cover: z.instanceof(File),
+})
+export function CreateBookForm({onBookCreated}: {onBookCreated: () => void}) {
+    const generateUploadUrl = useMutation(api.books.generateUploadUrl);
+    const createBook = useMutation(api.books.createBook);
+    const {toast} = useToast();
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            title: "",
+            description: "",
+        },
+    })
+
+   async function onSubmit(values: z.infer<typeof formSchema>) {
+        const url = await generateUploadUrl();
+
+        const result = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": values.cover.type },
+            body: values.cover,
+        });
+        const { storageId } = await result.json();
+        try {
+            await createBook({
+                title: values.title,
+                description: values.description,
+                fileId: storageId as Id<"_storage">,
+            });
+            toast({
+                title: "Book created",
+                description: "Your book has been create successfully",
+            });
+        } catch (error) {
+            toast({
+                title: "Something went wrong",
+                description: "There was a problem with creating your book",
+                variant: "destructive"
+            });
+        }
+
+        onBookCreated();
+    }
+
+    return (
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <FormField
+                    control={form.control}
+                    name="title"
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>Title</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Echoes of the Forgotten" {...field} />
+                            </FormControl>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="description"
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>Description</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Young archivist finds a vault of lost memories, uncovering secrets that could save or doom her world." {...field} />
+                            </FormControl>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="cover"
+                    render={({field: {value, onChange, ...fieldProps}}) => (
+                        <FormItem>
+                            <FormLabel>File</FormLabel>
+                            <FormControl>
+                                <Input{...fieldProps} type="file" accept="image/*"
+                                      onChange={(event) => {
+                                          const file = event.target.files?.[0];
+                                          onChange(file);
+                                      }}
+                                />
+                            </FormControl>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+                <Button type="submit">Submit</Button>
+            </form>
+        </Form>
+    );
+}
