@@ -20,14 +20,14 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
         <body
             className={cn(
                 "min-h-screen bg-background font-sans antialiased bg-zinc-50 dark:bg-black",
                 fontSans.variable
             )}
         >
-        <main className="container mx-auto ring-1 ring-zinc-100 dark:ring-zinc-300/20 bg-white dark:bg-zinc-900 rounded">
+        <main className="container mx-auto ring-1 ring-zinc-100 dark:ring-zinc-300/20 bg-white dark:bg-zinc-900 rounded-lg">
             <Providers>
                 <Header/>
                 {children}
