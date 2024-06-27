@@ -14,6 +14,9 @@ const config = {
     fontFamily: {
       sans: ["var(--font-sans)", ...fontFamily.sans],
     },
+    screens: {
+      "mobi-lg": "425px",
+    },
     container: {
       center: true,
       padding: "2rem",
