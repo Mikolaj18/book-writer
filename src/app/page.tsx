@@ -3,6 +3,7 @@
 import {Authenticated, Unauthenticated, useMutation, useQuery} from "convex/react";
 import {SignInButton, UserButton} from "@clerk/nextjs";
 import {api} from "../../convex/_generated/api";
+import {ModeToggle} from "@/components/ui/mode-toggle";
 
 export default function Home() {
     const createBook = useMutation(api.books.createBook);
@@ -14,6 +15,7 @@ export default function Home() {
             </Unauthenticated>
             <Authenticated>
                 <UserButton/>
+                <ModeToggle/>
                 <button onClick={() => {
                     createBook({title: "Example book"})
                 }}>Add Book
