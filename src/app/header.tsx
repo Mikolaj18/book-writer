@@ -12,12 +12,12 @@ export function Header() {
         <header className="py-6">
             <div className="flex justify-between items-center gap-2">
                 <Link href="/">
-                    <div className="hidden text-sm mobi-lg:block">
+                    <div className="hidden text-md mobi-lg:block">
                         Book Writer
                     </div>
                 </Link>
                 <nav
-                    className="flex gap-8 items-center rounded-full bg-white/90 px-3 text-xs sm:text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 p-2">
+                    className="flex gap-8 items-center rounded-full bg-white/90 px-3 text-sm sm:text-base font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 p-2">
                     <Link className={cn("hover:text-teal-400 transition", {
                         "text-teal-400": pathname.endsWith("/")
                     })}
