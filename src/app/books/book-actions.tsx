@@ -16,15 +16,24 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import {MoreVertical, Pen, Trash2} from "lucide-react";
+import {MoreVertical, Pen, SquarePen, Trash2} from "lucide-react";
 import {useState} from "react";
 import {Doc} from "../../../convex/_generated/dataModel";
 import {useMutation} from "convex/react";
 import {api} from "../../../convex/_generated/api";
 import {useToast} from "@/components/ui/use-toast";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription, DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from "@/components/ui/dialog";
 
 export function BookActions({book}: {book: Doc<"books">}) {
     const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+    const [isFormOpen, setIsFormOpen] = useState(false);
     const deleteBook = useMutation(api.books.deleteBook);
     const {toast} = useToast();
     const handleDeleteBook = async () => {
@@ -64,15 +73,11 @@ export function BookActions({book}: {book: Doc<"books">}) {
                 </AlertDialogContent>
             </AlertDialog>
 
-
             <DropdownMenu>
                 <DropdownMenuTrigger>
                     <MoreVertical/>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-white dark:bg-zinc-800">
-                    <DropdownMenuItem className="dark:hover:bg-zinc-700">
-                        <Pen className="size-4 mr-2"/> Edit
-                    </DropdownMenuItem>
                     <DropdownMenuItem className="dark:hover:bg-zinc-700" onClick={() => setIsConfirmOpen(true)}>
                         <Trash2 className="size-4 mr-2"/> Delete
                     </DropdownMenuItem>

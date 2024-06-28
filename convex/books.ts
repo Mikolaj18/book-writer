@@ -1,9 +1,24 @@
-import {mutation, query} from "./_generated/server";
+import {mutation, MutationCtx, query, QueryCtx} from "./_generated/server";
 import {ConvexError, v} from "convex/values";
+import {Id} from "./_generated/dataModel";
 
 export const generateUploadUrl = mutation(async (ctx) => {
     return await ctx.storage.generateUploadUrl();
 });
+
+export const hasAccessToBook = async (ctx: MutationCtx | QueryCtx, bookId: Id<"books">) => {
+    const userId = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
+    if (!userId) return null;
+
+    const book = await ctx.db.get(bookId);
+    if (!book) return null;
+
+    if (book.tokenIdentifier !== userId) {
+        return null;
+    }
+
+    return {book, userId};
+}
 export const getBooks = query({
     async handler(ctx) {
 
@@ -20,6 +35,19 @@ export const getBooks = query({
                 url: await ctx.storage.getUrl(book.fileId),
             }))
         );
+    },
+});
+
+export const getBook = query({
+    args: {
+        bookId: v.id("books"),
+    },
+    async handler(ctx, args) {
+        const accessObj = await hasAccessToBook(ctx, args.bookId);
+        if (!accessObj) return null;
+        const file = await ctx.storage.getUrl(accessObj.book.fileId);
+
+        return {...accessObj.book, documentUrl: file};
     },
 });
 export const createBook = mutation({
