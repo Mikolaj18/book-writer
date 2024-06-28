@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -45,6 +44,7 @@ export function CreateBookForm({onBookCreated}: {onBookCreated: () => void}) {
             body: values.cover,
         });
         const { storageId } = await result.json();
+
         try {
             await createBook({
                 title: values.title,
@@ -62,7 +62,6 @@ export function CreateBookForm({onBookCreated}: {onBookCreated: () => void}) {
                 variant: "destructive"
             });
         }
-
         onBookCreated();
     }
 

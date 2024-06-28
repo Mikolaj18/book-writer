@@ -12,7 +12,7 @@ export function Header() {
         <header className="py-6">
             <div className="flex justify-between items-center gap-2">
                 <Link href="/">
-                    <div className="hidden text-md mobi-lg:block">
+                    <div className="hidden text-md lg:text-xl mobi-lg:block">
                         Book Writer
                     </div>
                 </Link>

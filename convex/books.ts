@@ -10,9 +10,17 @@ export const getBooks = query({
         const userId = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
         if(!userId) return [];
 
-        return await ctx.db.query("books")
+        // const test = await ctx.storage.getUrl(accessObj.document.fileId)
+        let books =  await ctx.db.query("books")
             .withIndex("by_tokenIdentifier", (q) => q.eq("tokenIdentifier", userId))
             .collect();
+
+        return await Promise.all(
+            books.map(async (book) => ({
+                ...book,
+                url: await ctx.storage.getUrl(book.fileId),
+            }))
+        );
     },
 });
 export const createBook = mutation({
