@@ -32,7 +32,7 @@ export const getBooks = query({
         return await Promise.all(
             books.map(async (book) => ({
                 ...book,
-                url: await ctx.storage.getUrl(book.fileId),
+                coverUrl: await ctx.storage.getUrl(book.fileId),
             }))
         );
     },
@@ -47,7 +47,7 @@ export const getBook = query({
         if (!accessObj) return null;
         const file = await ctx.storage.getUrl(accessObj.book.fileId);
 
-        return {...accessObj.book, documentUrl: file};
+        return {...accessObj.book, coverUrl: file};
     },
 });
 export const createBook = mutation({
@@ -75,13 +75,10 @@ export const deleteBook = mutation({
         bookId: v.id("books"),
     },
     async handler(ctx, args) {
-        const userId = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
-        if (!userId) return null;
+        const accessObj = await hasAccessToBook(ctx, args.bookId);
+        if (!accessObj) throw new ConvexError("You do not have access to this book");
 
-        const book = await ctx.db.get(args.bookId);
-        if (!book) return null;
-
-        await ctx.storage.delete(book.fileId);
+        await ctx.storage.delete(accessObj.book.fileId);
         await ctx.db.delete(args.bookId);
     }
 });
