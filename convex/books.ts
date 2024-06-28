@@ -10,7 +10,6 @@ export const getBooks = query({
         const userId = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
         if(!userId) return [];
 
-        // const test = await ctx.storage.getUrl(accessObj.document.fileId)
         let books =  await ctx.db.query("books")
             .withIndex("by_tokenIdentifier", (q) => q.eq("tokenIdentifier", userId))
             .collect();
@@ -41,4 +40,20 @@ export const createBook = mutation({
             tokenIdentifier: userId,
         });
     },
+});
+
+export const deleteBook = mutation({
+    args: {
+        bookId: v.id("books"),
+    },
+    async handler(ctx, args) {
+        const userId = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
+        if (!userId) return null;
+
+        const book = await ctx.db.get(args.bookId);
+        if (!book) return null;
+
+        await ctx.storage.delete(book.fileId);
+        await ctx.db.delete(args.bookId);
+    }
 });
