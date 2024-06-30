@@ -33,7 +33,7 @@ export const getBooks = query({
             books.map(async (book) => ({
                 ...book,
                 coverUrl: await ctx.storage.getUrl(book.fileId),
-            }))
+            })),
         );
     },
 });
@@ -70,6 +70,27 @@ export const createBook = mutation({
     },
 });
 
+export const editBook = mutation({
+    args: {
+        bookId: v.id("books"),
+        title: v.string(),
+        description: v.string(),
+        fileId: v.id("_storage"),
+    },
+    async handler(ctx, args) {
+        const accessObj = await hasAccessToBook(ctx, args.bookId);
+        if (!accessObj) throw new ConvexError("You do not have access to this book");
+
+        if(args.fileId !== accessObj.book.fileId) await ctx.storage.delete(accessObj.book.fileId);
+
+        await ctx.db.patch(accessObj.book._id, {
+            title: args.title,
+            description: args.description,
+            fileId: args.fileId ?? accessObj.book.fileId,
+        });
+    },
+});
+
 export const deleteBook = mutation({
     args: {
         bookId: v.id("books"),
@@ -80,5 +101,5 @@ export const deleteBook = mutation({
 
         await ctx.storage.delete(accessObj.book.fileId);
         await ctx.db.delete(args.bookId);
-    }
+    },
 });

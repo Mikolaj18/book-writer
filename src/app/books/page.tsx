@@ -8,7 +8,7 @@ import {BookCard} from "@/app/books/book-card";
 export default function BooksPage() {
     const books = useQuery(api.books.getBooks);
     return (
-        <main className="w-full space-y-8">
+        <section className="w-full space-y-8">
             <div className="flex flex-col sm:flex-row gap-y-4 justify-between items-center">
                 <h1 className="text-2xl md:text-4xl font-bold">My Books</h1>
                 <CreateBookButton/>
@@ -19,6 +19,6 @@ export default function BooksPage() {
                     <BookCard key={book._id} book={book}/>
                 ))}
             </div>
-        </main>
+        </section>
     );
 }

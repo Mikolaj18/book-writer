@@ -10,6 +10,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {BookActions} from "@/app/books/book-actions";
+import Link from "next/link";
 export function BookCard({book}: { book: Doc<"books"> & { coverUrl: string | null } }) {
     return (
         <Card className="flex flex-col justify-between rounded-xl bg-white/90 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10">
@@ -24,7 +25,12 @@ export function BookCard({book}: { book: Doc<"books"> & { coverUrl: string | nul
                 {book.coverUrl && <Image className="w-full h-full object-cover" src={book.coverUrl} alt="book cover" width={300} height={600}/>}
             </CardContent>
             <CardFooter>
-                <Button className="text-white dark:bg-zinc-700 dark:hover:bg-zinc-600">Continue Writing</Button>
+
+                <Button asChild className="text-white dark:bg-zinc-700 dark:hover:bg-zinc-600">
+                    <Link href={`/books/${book._id}`}>
+                        Continue Writing
+                    </Link>
+                </Button>
             </CardFooter>
         </Card>
     );

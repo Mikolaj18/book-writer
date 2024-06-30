@@ -33,7 +33,6 @@ import {
 
 export function BookActions({book}: {book: Doc<"books">}) {
     const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-    const [isFormOpen, setIsFormOpen] = useState(false);
     const deleteBook = useMutation(api.books.deleteBook);
     const {toast} = useToast();
     const handleDeleteBook = async () => {
