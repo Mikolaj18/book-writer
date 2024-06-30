@@ -38,13 +38,12 @@ export const createChapter = mutation({
             )
             .collect();
 
-        const chapterCount = chapters.length;
-
+        const timestamp = Math.floor(Date.now() / 1000)
 
         await ctx.db.insert("chapters", {
             title: args.title,
             content: "",
-            index: chapterCount,
+            index: timestamp,
             tokenIdentifier: userId,
             bookId: args.bookId
         });
