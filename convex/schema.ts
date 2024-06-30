@@ -8,4 +8,12 @@ export default defineSchema({
         fileId: v.id("_storage"),
         tokenIdentifier: v.string(),
     }).index("by_tokenIdentifier", ["tokenIdentifier"]),
+    chapters: defineTable({
+        title: v.string(),
+        content: v.string(),
+        bookId: v.id("books"),
+        tokenIdentifier: v.string(),
+    })
+        .index("by_tokenIdentifier", ["tokenIdentifier"])
+        .index('by_bookId', ["bookId"]),
 });
