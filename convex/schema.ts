@@ -10,8 +10,9 @@ export default defineSchema({
     }).index("by_tokenIdentifier", ["tokenIdentifier"]),
     chapters: defineTable({
         title: v.string(),
+        index: v.number(),
         content: v.string(),
         bookId: v.id("books"),
         tokenIdentifier: v.string(),
-    }).index("by_tokenIdentifier_bookId", ["tokenIdentifier", "bookId"])
+    }).index("by_tokenIdentifier_bookId", ["tokenIdentifier", "bookId"]),
 });
