@@ -9,20 +9,35 @@ import {Button} from "@/components/ui/button";
 import {CreateChapterButton} from "@/app/books/[bookId]/create-chapter-button";
 import {GripVertical, Pencil} from "lucide-react";
 import {ChapterList} from "@/app/books/[bookId]/chapter-list";
+import {useState} from "react";
+import Link from "next/link";
+import {ObjectNavigation} from "@/app/object-navigation";
 
 export default function BookPage() {
+
     const {bookId} = useParams<{ bookId: Id<"books"> }>();
+    const books = useQuery(api.books.getBooks);
     const book = useQuery(api.books.getBook, {
         bookId,
     });
     const chapters = useQuery(api.chapters.getChapters, {
         bookId,
     });
+    if (!book || !chapters || !books) return null;
 
-    if (!book || !chapters) return null;
+    const currentIndex = books.findIndex(item => item._id === book._id);
+    const nextBook = books[currentIndex + 1];
+    const previousBook = books[currentIndex - 1];
 
     return (
         <section className="w-full space-y-8 p-12">
+            <ObjectNavigation
+                previousItem={previousBook}
+                nextItem={nextBook}
+                previousText="Previous Book"
+                nextText="Next Book"
+                url={`books`}
+            />
             <div className="flex gap-4 items-center">
                 <h1 className="text-4xl">{book.title}</h1>
                 <EditBookButton book={book}/>

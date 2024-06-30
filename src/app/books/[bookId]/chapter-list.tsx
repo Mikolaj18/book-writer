@@ -5,6 +5,7 @@ import {DragDropContext, Draggable, Droppable} from "@hello-pangea/dnd";
 import {useTransition, useOptimistic} from "react";
 import {useMutation} from "convex/react";
 import {api} from "../../../../convex/_generated/api";
+import Link from "next/link";
 
 export function ChapterList({chapters, bookId}: { chapters: Doc<"chapters">[], bookId: Id<"books"> }) {
 
@@ -28,6 +29,7 @@ export function ChapterList({chapters, bookId}: { chapters: Doc<"chapters">[], b
         }
     );
     const onDragEnd = async (result: any) => {
+        if (!result.destination) return;
         const sourceChapterId = result.draggableId;
         const destinationChapterId = chapters[result.destination.index]._id;
         startTransition(() => {
@@ -67,8 +69,10 @@ export function ChapterList({chapters, bookId}: { chapters: Doc<"chapters">[], b
                                                 </div>
                                                 Chapter {index+1}: {chapter.title}
                                             </div>
-                                            <Button className="text-white dark:bg-zinc-700 dark:hover:bg-zinc-600">
-                                                <Pencil className="mr-2 size-5"/> Edit
+                                            <Button asChild className="text-white dark:bg-zinc-700 dark:hover:bg-zinc-600">
+                                                <Link href={`/books/${bookId}/${chapter._id}`}>
+                                                    <Pencil className="mr-2 size-5"/> Edit
+                                                </Link>
                                             </Button>
                                         </div>
                                     </li>
