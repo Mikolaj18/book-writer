@@ -39,7 +39,7 @@ export default function BookPage() {
                 url={`books`}
             />
             <div className="flex gap-4 items-center">
-                <h1 className="text-4xl">{book.title}</h1>
+                <h1 className="text-xl sm:text-4xl">{book.title}</h1>
                 <EditBookButton book={book}/>
             </div>
             <ChapterList chapters={chapters} bookId={book._id}/>

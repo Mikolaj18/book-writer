@@ -1,7 +1,6 @@
 import {mutation, MutationCtx, query, QueryCtx} from "./_generated/server";
 import {ConvexError, v} from "convex/values";
 import {Id} from "./_generated/dataModel";
-import {hasAccessToBook} from "./books";
 
 export const hasAccessToChapter = async (ctx: MutationCtx | QueryCtx, chapterId: Id<"chapters">) => {
     const userId = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
@@ -33,17 +32,20 @@ export const getChapters = query({
             )
             .collect();
 
-        return chapters.sort((a, b) => a.index - b.index)
+        return chapters.sort((a, b) => a.index - b.index);
     },
 });
 
 export const getChapter = query({
     args: {
         chapterId: v.id("chapters"),
+        bookId: v.id("books"),
     },
     async handler(ctx, args) {
         const accessObj = await hasAccessToChapter(ctx, args.chapterId);
         if (!accessObj) return null;
+
+        if(accessObj.chapter.bookId !== args.bookId) return null;
 
         return {...accessObj.chapter};
     },

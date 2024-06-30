@@ -16,6 +16,7 @@ export default function ChapterPage() {
     });
     const chapter = useQuery(api.chapters.getChapter, {
         chapterId,
+        bookId,
     });
     if(!book || !chapter || !chapters) return null;
 
@@ -24,8 +25,8 @@ export default function ChapterPage() {
     const previousChapter = chapters[currentIndex - 1];
     return (
         <section className="w-full space-y-8 p-12">
-            <h1 className="text-5xl font-bold text-center">{book.title}</h1>
-            <h2 className="text-2xl text-center">{chapter.title}</h2>
+            <h1 className="text-3xl sm:text-5xl font-bold text-center">{book.title}</h1>
+            <h2 className="text-xl sm:text-2xl text-center">{chapter.title}</h2>
             <ObjectNavigation
                 previousItem={previousChapter}
                 nextItem={nextChapter}

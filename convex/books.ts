@@ -101,5 +101,17 @@ export const deleteBook = mutation({
 
         await ctx.storage.delete(accessObj.book.fileId);
         await ctx.db.delete(args.bookId);
+
+        const chaptersToDelete = await ctx.db.query("chapters")
+            .withIndex("by_tokenIdentifier_bookId", (q) =>
+                q
+                    .eq("tokenIdentifier", accessObj.userId)
+                    .eq("bookId", args.bookId)
+            )
+            .collect();
+
+        for (const chapter of chaptersToDelete) {
+            await ctx.db.delete(chapter._id);
+        }
     },
 });

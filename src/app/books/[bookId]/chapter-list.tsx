@@ -59,7 +59,7 @@ export function ChapterList({chapters, bookId}: { chapters: Doc<"chapters">[], b
                                         className="p-6 border-2 border-b-0 last:border-b-2 border-black/90 dark:border-white italic"
                                         {...provided.draggableProps}
                                     >
-                                        <div className="flex justify-between items-center">
+                                        <div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
                                             <div className="flex items-center gap-4">
                                                 <div
                                                     {...provided.dragHandleProps}
