@@ -13,7 +13,5 @@ export default defineSchema({
         content: v.string(),
         bookId: v.id("books"),
         tokenIdentifier: v.string(),
-    })
-        .index("by_tokenIdentifier", ["tokenIdentifier"])
-        .index('by_bookId', ["bookId"]),
+    }).index("by_tokenIdentifier_bookId", ["tokenIdentifier", "bookId"])
 });
