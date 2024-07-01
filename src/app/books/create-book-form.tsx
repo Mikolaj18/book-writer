@@ -22,7 +22,7 @@ const formSchema = z.object({
     title: z.string().min(2).max(100),
     description: z.string().min(2).max(250),
     cover: z.instanceof(File),
-})
+});
 export function CreateBookForm({onBookCreated}: {onBookCreated: () => void}) {
     const generateUploadUrl = useMutation(api.books.generateUploadUrl);
     const createBook = useMutation(api.books.createBook);
@@ -33,7 +33,7 @@ export function CreateBookForm({onBookCreated}: {onBookCreated: () => void}) {
             title: "",
             description: "",
         },
-    })
+    });
 
    async function onSubmit(values: z.infer<typeof formSchema>) {
         const url = await generateUploadUrl();

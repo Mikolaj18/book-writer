@@ -15,41 +15,41 @@ import {
 import { Input } from "@/components/ui/input"
 import {useMutation} from "convex/react";
 import {useToast} from "@/components/ui/use-toast";
-import {api} from "../../../../convex/_generated/api";
-import {Doc} from "../../../../convex/_generated/dataModel";
+import {api} from "../../../../../convex/_generated/api";
+import {Doc} from "../../../../../convex/_generated/dataModel";
 
 const formSchema = z.object({
     title: z.string().min(2).max(100),
 });
-export function CreateChapterForm({book, onChapterCreated}: {book: Doc<"books">, onChapterCreated: () => void}) {
-    const createChapter = useMutation(api.chapters.createChapter);
+export function EditChapterTitleForm({chapter, book, onChapterEdited}: {chapter: Doc<"chapters">, book: Doc<"books">, onChapterEdited: () => void}) {
+    const editChapterTitle = useMutation(api.chapters.editChapterTitle);
     const {toast} = useToast();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            title: "",
+            title: chapter.title ?? "",
         },
     });
 
    async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            await createChapter({
+            await editChapterTitle({
                 title: values.title,
-                content: "",
                 bookId: book._id,
+                chapterId: chapter._id,
             });
             toast({
-                title: "Chapter created",
-                description: "Your chapter has been create successfully",
+                title: "Chapter edited",
+                description: "Your chapter has been create edited",
             });
         } catch (error) {
             toast({
                 title: "Something went wrong",
-                description: "There was a problem with creating your chapter",
+                description: "There was a problem with editing your chapter",
                 variant: "destructive"
             });
         }
-        onChapterCreated();
+        onChapterEdited();
     }
 
     return (

@@ -5,6 +5,9 @@ import {Id} from "../../../../../convex/_generated/dataModel";
 import {useQuery} from "convex/react";
 import {api} from "../../../../../convex/_generated/api";
 import {ObjectNavigation} from "@/app/object-navigation";
+import {Pencil} from "lucide-react";
+import {EditChapterTitleForm} from "@/app/books/[bookId]/[chapterId]/edit-chapter-title";
+import {EditChapterTitleButton} from "@/app/books/[bookId]/[chapterId]/edit-chapter-title-button";
 
 export default function ChapterPage() {
     const {bookId, chapterId} = useParams<{ bookId: Id<"books">, chapterId: Id<"chapters"> }>();
@@ -23,10 +26,14 @@ export default function ChapterPage() {
     const currentIndex = chapters.findIndex(item => item._id === chapter._id);
     const nextChapter = chapters[currentIndex + 1];
     const previousChapter = chapters[currentIndex - 1];
+
     return (
         <section className="w-full space-y-8 p-12">
             <h1 className="text-3xl sm:text-5xl font-bold text-center">{book.title}</h1>
-            <h2 className="text-xl sm:text-2xl text-center">{chapter.title}</h2>
+            <div className="flex items-center justify-center gap-4 pt-6">
+                <h2 className="text-xl sm:text-2xl text-center">{chapter.title}</h2>
+                <EditChapterTitleButton book={book} chapter={chapter}/>
+            </div>
             <ObjectNavigation
                 previousItem={previousChapter}
                 nextItem={nextChapter}

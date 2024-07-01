@@ -1,6 +1,7 @@
 import {mutation, MutationCtx, query, QueryCtx} from "./_generated/server";
 import {ConvexError, v} from "convex/values";
 import {Id} from "./_generated/dataModel";
+import {hasAccessToBook} from "./books";
 
 export const hasAccessToChapter = async (ctx: MutationCtx | QueryCtx, chapterId: Id<"chapters">) => {
     const userId = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
@@ -62,12 +63,6 @@ export const createChapter = mutation({
         const userId = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
         if (!userId) throw new ConvexError("Not authenticated");
 
-        const chapters = await ctx.db.query("chapters")
-            .withIndex("by_tokenIdentifier_bookId", (q) =>
-                q.eq("tokenIdentifier", userId).eq("bookId", args.bookId)
-            )
-            .collect();
-
         const timestamp = Math.floor(Date.now() / 1000)
 
         await ctx.db.insert("chapters", {
@@ -79,6 +74,23 @@ export const createChapter = mutation({
         });
     },
 });
+
+export const editChapterTitle = mutation({
+    args: {
+        bookId: v.id("books"),
+        chapterId: v.id("chapters"),
+        title: v.string(),
+    },
+    async handler(ctx, args) {
+        const accessObj = await hasAccessToChapter(ctx, args.chapterId);
+        if (!accessObj) throw new ConvexError("You do not have access to this chapter");
+        if(accessObj.chapter.bookId !== args.bookId) throw new ConvexError("You do not have access to this chapter");
+        await ctx.db.patch(accessObj.chapter._id, {
+            title: args.title,
+        });
+    },
+});
+
 
 export const swapChapters = mutation({
     args: {
