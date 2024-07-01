@@ -5,9 +5,10 @@ import {Id} from "../../../../../convex/_generated/dataModel";
 import {useQuery} from "convex/react";
 import {api} from "../../../../../convex/_generated/api";
 import {ObjectNavigation} from "@/app/object-navigation";
-import {Pencil} from "lucide-react";
-import {EditChapterTitleForm} from "@/app/books/[bookId]/[chapterId]/edit-chapter-title";
 import {EditChapterTitleButton} from "@/app/books/[bookId]/[chapterId]/edit-chapter-title-button";
+import {Button} from "@/components/ui/button";
+import Link from "next/link";
+import {Pencil, Undo2} from "lucide-react";
 
 export default function ChapterPage() {
     const {bookId, chapterId} = useParams<{ bookId: Id<"books">, chapterId: Id<"chapters"> }>();
@@ -41,6 +42,16 @@ export default function ChapterPage() {
                 nextText="Next Chapter"
                 url={`books/${bookId}`}
             />
+            <div className="w-full flex justify-between">
+                <Button asChild>
+                    <Link href={`/books/${bookId}`}>
+                        <Undo2 className="mr-2 size-5"/> Back
+                    </Link>
+                </Button>
+                <Button>
+                    <Pencil className="mr-2 size-5"/> Edit
+                </Button>
+            </div>
         </section>
-    )
+    );
 }

@@ -7,7 +7,7 @@ import {api} from "../../../../convex/_generated/api";
 import {EditBookButton} from "@/app/books/[bookId]/edit-book-button";
 import {Button} from "@/components/ui/button";
 import {CreateChapterButton} from "@/app/books/[bookId]/create-chapter-button";
-import {GripVertical, Pencil} from "lucide-react";
+import {GripVertical, Pencil, Undo2} from "lucide-react";
 import {ChapterList} from "@/app/books/[bookId]/chapter-list";
 import {useState} from "react";
 import Link from "next/link";
@@ -44,7 +44,12 @@ export default function BookPage() {
             </div>
             <ChapterList chapters={chapters} bookId={book._id}/>
             <div className="w-full">
-                <div className="w-full flex justify-end">
+                <div className="w-full flex justify-between">
+                    <Button asChild>
+                        <Link href="/books">
+                            <Undo2 className="mr-2 size-5"/>Back
+                        </Link>
+                    </Button>
                     <CreateChapterButton book={book}/>
                 </div>
             </div>

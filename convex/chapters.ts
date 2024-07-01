@@ -85,6 +85,7 @@ export const editChapterTitle = mutation({
         const accessObj = await hasAccessToChapter(ctx, args.chapterId);
         if (!accessObj) throw new ConvexError("You do not have access to this chapter");
         if(accessObj.chapter.bookId !== args.bookId) throw new ConvexError("You do not have access to this chapter");
+
         await ctx.db.patch(accessObj.chapter._id, {
             title: args.title,
         });
