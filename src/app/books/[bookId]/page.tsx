@@ -7,9 +7,8 @@ import {api} from "../../../../convex/_generated/api";
 import {EditBookButton} from "@/app/books/[bookId]/edit-book-button";
 import {Button} from "@/components/ui/button";
 import {CreateChapterButton} from "@/app/books/[bookId]/create-chapter-button";
-import {GripVertical, Pencil, Undo2} from "lucide-react";
+import {Undo2} from "lucide-react";
 import {ChapterList} from "@/app/books/[bookId]/chapter-list";
-import {useState} from "react";
 import Link from "next/link";
 import {ObjectNavigation} from "@/app/object-navigation";
 
@@ -50,7 +49,7 @@ export default function BookPage() {
                             <Undo2 className="mr-2 size-5"/>Back
                         </Link>
                     </Button>
-                    <CreateChapterButton book={book}/>
+                    <CreateChapterButton bookId={bookId}/>
                 </div>
             </div>
         </section>

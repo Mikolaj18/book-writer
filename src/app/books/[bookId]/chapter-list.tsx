@@ -6,6 +6,7 @@ import {useTransition, useOptimistic} from "react";
 import {useMutation} from "convex/react";
 import {api} from "../../../../convex/_generated/api";
 import Link from "next/link";
+import {DeleteChapterButton} from "@/app/books/[bookId]/delete-chapter-button";
 
 export function ChapterList({chapters, bookId}: { chapters: Doc<"chapters">[], bookId: Id<"books"> }) {
 
@@ -32,10 +33,10 @@ export function ChapterList({chapters, bookId}: { chapters: Doc<"chapters">[], b
         if (!result.destination) return;
         const sourceChapterId = result.draggableId;
         const destinationChapterId = chapters[result.destination.index]._id;
-        startTransition(() => {
-            swapOptimistic({sourceChapterId, destinationChapterId})
-            swapChapters({bookId, sourceChapterId, destinationChapterId})
-        })
+        startTransition(async () => {
+            swapOptimistic({sourceChapterId, destinationChapterId});
+            await swapChapters({bookId, sourceChapterId, destinationChapterId});
+        });
     }
 
     return (
@@ -67,13 +68,17 @@ export function ChapterList({chapters, bookId}: { chapters: Doc<"chapters">[], b
                                                 >
                                                     <GripVertical/>
                                                 </div>
-                                                Chapter {index+1}: {chapter.title}
+                                                Chapter {index + 1}: {chapter.title}
                                             </div>
-                                            <Button asChild className="text-white dark:bg-zinc-700 dark:hover:bg-zinc-600">
-                                                <Link href={`/books/${bookId}/${chapter._id}`}>
-                                                    <Pencil className="mr-2 size-5"/> Edit
-                                                </Link>
-                                            </Button>
+                                            <div className="flex items-center gap-2">
+                                                <Button asChild
+                                                        className="text-white dark:bg-zinc-700 dark:hover:bg-zinc-600">
+                                                    <Link href={`/books/${bookId}/${chapter._id}`}>
+                                                        <Pencil className="mr-2 size-5"/> Edit
+                                                    </Link>
+                                                </Button>
+                                                <DeleteChapterButton chapterId={chapter._id} bookId={bookId}/>
+                                            </div>
                                         </div>
                                     </li>
                                 )}

@@ -11,8 +11,8 @@ import {
 import {Pencil} from "lucide-react";
 import {useState} from "react";
 import {EditChapterTitleForm} from "@/app/books/[bookId]/[chapterId]/edit-chapter-title";
-import {Doc} from "../../../../../convex/_generated/dataModel";
-export function EditChapterTitleButton({chapter, book} : {chapter: Doc<"chapters">, book: Doc<"books">}) {
+import {Doc, Id} from "../../../../../convex/_generated/dataModel";
+export function EditChapterTitleButton({chapter, bookId} : {chapter: Doc<"chapters">, bookId: Id<"books">}) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -26,7 +26,7 @@ export function EditChapterTitleButton({chapter, book} : {chapter: Doc<"chapters
                     <DialogDescription>
                         Type a new title for your chapter
                     </DialogDescription>
-                    <EditChapterTitleForm chapter={chapter} book={book} onChapterEdited={() => setIsOpen(false)}/>
+                    <EditChapterTitleForm chapter={chapter} bookId={bookId} onChapterEdited={() => setIsOpen(false)}/>
                 </DialogHeader>
             </DialogContent>
         </Dialog>

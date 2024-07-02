@@ -1,8 +1,6 @@
 import {mutation, MutationCtx, query, QueryCtx} from "./_generated/server";
 import {ConvexError, v} from "convex/values";
 import {Id} from "./_generated/dataModel";
-import {hasAccessToBook} from "./books";
-
 export const hasAccessToChapter = async (ctx: MutationCtx | QueryCtx, chapterId: Id<"chapters">) => {
     const userId = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
     if (!userId) return null;
@@ -92,6 +90,19 @@ export const editChapterTitle = mutation({
     },
 });
 
+export const deleteChapter = mutation({
+    args: {
+        chapterId: v.id("chapters"),
+        bookId: v.id("books"),
+    },
+    async handler(ctx, args) {
+        const accessObj = await hasAccessToChapter(ctx, args.chapterId);
+        if (!accessObj) throw new ConvexError("You do not have access to this chapter");
+        if(accessObj.chapter.bookId !== args.bookId) throw new ConvexError("You do not have access to this chapter");
+
+        await ctx.db.delete(args.chapterId);
+    },
+});
 
 export const swapChapters = mutation({
     args: {

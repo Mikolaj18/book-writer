@@ -33,7 +33,7 @@ export default function ChapterPage() {
             <h1 className="text-3xl sm:text-5xl font-bold text-center">{book.title}</h1>
             <div className="flex items-center justify-center gap-4 pt-6">
                 <h2 className="text-xl sm:text-2xl text-center">{chapter.title}</h2>
-                <EditChapterTitleButton book={book} chapter={chapter}/>
+                <EditChapterTitleButton bookId={bookId} chapter={chapter}/>
             </div>
             <ObjectNavigation
                 previousItem={previousChapter}

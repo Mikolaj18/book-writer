@@ -12,8 +12,8 @@ import {Button} from "@/components/ui/button";
 import {CirclePlus} from "lucide-react";
 import {useState} from "react";
 import {CreateChapterForm} from "@/app/books/[bookId]/create-chapter-form";
-import {Doc} from "../../../../convex/_generated/dataModel";
-export function CreateChapterButton({book} : {book: Doc<"books">}) {
+import {Id} from "../../../../convex/_generated/dataModel";
+export function CreateChapterButton({bookId} : {bookId: Id<"books">}) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -29,7 +29,7 @@ export function CreateChapterButton({book} : {book: Doc<"books">}) {
                     <DialogDescription>
                         Type a title for your chapter
                     </DialogDescription>
-                    <CreateChapterForm book={book} onChapterCreated={() => setIsOpen(false)}/>
+                    <CreateChapterForm bookId={bookId} onChapterCreated={() => setIsOpen(false)}/>
                 </DialogHeader>
             </DialogContent>
         </Dialog>

@@ -16,12 +16,12 @@ import { Input } from "@/components/ui/input"
 import {useMutation} from "convex/react";
 import {useToast} from "@/components/ui/use-toast";
 import {api} from "../../../../convex/_generated/api";
-import {Doc} from "../../../../convex/_generated/dataModel";
+import {Id} from "../../../../convex/_generated/dataModel";
 
 const formSchema = z.object({
     title: z.string().min(2).max(100),
 });
-export function CreateChapterForm({book, onChapterCreated}: {book: Doc<"books">, onChapterCreated: () => void}) {
+export function CreateChapterForm({bookId, onChapterCreated}: {bookId: Id<"books">, onChapterCreated: () => void}) {
     const createChapter = useMutation(api.chapters.createChapter);
     const {toast} = useToast();
     const form = useForm<z.infer<typeof formSchema>>({
@@ -36,7 +36,7 @@ export function CreateChapterForm({book, onChapterCreated}: {book: Doc<"books">,
             await createChapter({
                 title: values.title,
                 content: "",
-                bookId: book._id,
+                bookId,
             });
             toast({
                 title: "Chapter created",
