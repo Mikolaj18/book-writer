@@ -2,13 +2,17 @@
 
 import {useParams} from "next/navigation";
 import {Id} from "../../../../../convex/_generated/dataModel";
-import {useQuery} from "convex/react";
+import {useMutation, useQuery} from "convex/react";
 import {api} from "../../../../../convex/_generated/api";
 import {ObjectNavigation} from "@/app/object-navigation";
 import {EditChapterTitleButton} from "@/app/books/[bookId]/[chapterId]/edit-chapter-title-button";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
-import {Pencil, Undo2} from "lucide-react";
+import {Save, Undo2} from "lucide-react";
+import {Editor} from "@/app/books/[bookId]/[chapterId]/editor";
+import {useCurrentEditor} from "@tiptap/react";
+import {useState} from "react";
+import {useToast} from "@/components/ui/use-toast";
 
 export default function ChapterPage() {
     const {bookId, chapterId} = useParams<{ bookId: Id<"books">, chapterId: Id<"chapters"> }>();
@@ -22,16 +26,39 @@ export default function ChapterPage() {
         chapterId,
         bookId,
     });
-    if(!book || !chapter || !chapters) return null;
+    const editChapterContent = useMutation(api.chapters.editChapterContent);
 
+    const {toast} = useToast();
+    const [content, setContent] = useState( "");
+
+    if(!book || !chapter || !chapters) return null;
     const currentIndex = chapters.findIndex(item => item._id === chapter._id);
     const nextChapter = chapters[currentIndex + 1];
     const previousChapter = chapters[currentIndex - 1];
+    const handleSave = async () => {
+        try {
+            await editChapterContent({
+                content,
+                bookId,
+                chapterId,
+            });
+            toast({
+                title: "Chapter saved",
+                description: "Your chapter has been saved successfully",
+            });
+        } catch (error) {
+            toast({
+                title: "Something went wrong",
+                description: "There was a problem with saving your chapter",
+                variant: "destructive"
+            });
+        }
+    }
 
     return (
-        <section className="w-full space-y-8 p-12">
+        <section className="w-full space-y-8 py-12">
             <h1 className="text-3xl sm:text-5xl font-bold text-center">{book.title}</h1>
-            <div className="flex items-center justify-center gap-4 pt-6">
+            <div className="flex items-center justify-center gap-4">
                 <h2 className="text-xl sm:text-2xl text-center">{chapter.title}</h2>
                 <EditChapterTitleButton bookId={bookId} chapter={chapter}/>
             </div>
@@ -42,14 +69,15 @@ export default function ChapterPage() {
                 nextText="Next Chapter"
                 url={`books/${bookId}`}
             />
+            <Editor content={chapter.content ?? ""} onChange={setContent} />
             <div className="w-full flex justify-between">
                 <Button asChild>
                     <Link href={`/books/${bookId}`}>
                         <Undo2 className="mr-2 size-5"/> Back
                     </Link>
                 </Button>
-                <Button>
-                    <Pencil className="mr-2 size-5"/> Edit
+                <Button onClick={handleSave}>
+                    <Save className="mr-2 size-5"/> Save
                 </Button>
             </div>
         </section>

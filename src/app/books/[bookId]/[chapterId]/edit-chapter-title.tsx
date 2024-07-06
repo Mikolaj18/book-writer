@@ -40,7 +40,7 @@ export function EditChapterTitleForm({chapter, bookId, onChapterEdited}: {chapte
             });
             toast({
                 title: "Chapter edited",
-                description: "Your chapter has been create edited",
+                description: "Your chapter has been create succesfully",
             });
         } catch (error) {
             toast({

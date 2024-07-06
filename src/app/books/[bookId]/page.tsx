@@ -29,7 +29,7 @@ export default function BookPage() {
     const previousBook = books[currentIndex - 1];
 
     return (
-        <section className="w-full space-y-8 p-12">
+        <section className="w-full space-y-8 py-12">
             <ObjectNavigation
                 previousItem={previousBook}
                 nextItem={nextBook}

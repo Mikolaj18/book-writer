@@ -90,6 +90,24 @@ export const editChapterTitle = mutation({
     },
 });
 
+
+export const editChapterContent = mutation({
+    args: {
+        bookId: v.id("books"),
+        chapterId: v.id("chapters"),
+        content: v.string(),
+    },
+    async handler(ctx, args) {
+        const accessObj = await hasAccessToChapter(ctx, args.chapterId);
+        if (!accessObj) throw new ConvexError("You do not have access to this chapter");
+        if(accessObj.chapter.bookId !== args.bookId) throw new ConvexError("You do not have access to this chapter");
+
+        await ctx.db.patch(accessObj.chapter._id, {
+            content: args.content,
+        });
+    },
+});
+
 export const deleteChapter = mutation({
     args: {
         chapterId: v.id("chapters"),
