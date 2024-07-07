@@ -9,7 +9,7 @@ import {usePathname} from "next/navigation";
 export function Header() {
     const pathname = usePathname();
     return (
-        <header className="py-6">
+        <header className="py-6 relative z-50">
             <div className="flex justify-between items-center gap-2">
                 <Link href="/">
                     <div className="hidden text-md lg:text-xl mobi-lg:block">

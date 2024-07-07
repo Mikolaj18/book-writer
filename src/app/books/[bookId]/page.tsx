@@ -87,7 +87,7 @@ export default function BookPage() {
                     </div>
                     <ChapterList chapters={chapters} bookId={book._id}/>
                     <div className="w-full">
-                        <div className="w-full flex justify-between">
+                        <div className="w-full flex flex-col mobi-lg:flex-row gap-2 items-center justify-between">
                             <Button asChild>
                                 <Link href="/books">
                                     <Undo2 className="mr-2 size-5"/>Back
