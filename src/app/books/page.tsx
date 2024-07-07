@@ -43,12 +43,12 @@ export default function BooksPage() {
 
 
             {books && books.length === 0 &&
-                <div className="py-24 flex flex-col justify-center items-center gap-8">
+                <div className="py-12 flex flex-col justify-center items-center gap-8">
                     <Image
                         src="/books-empty.svg"
                         width="300"
                         height="300"
-                        alt="A picture of a girl holding documents"
+                        alt="A picture of a girl pointing at book"
                     />
                     <h2 className="text-2xl text-center">It is a bit empty here. Go ahead and write something.</h2>
                     <CreateBookButton/>
