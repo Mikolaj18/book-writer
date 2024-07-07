@@ -17,6 +17,7 @@ import {useMutation} from "convex/react";
 import {api} from "../../../convex/_generated/api";
 import {Id} from "../../../convex/_generated/dataModel";
 import {useToast} from "@/components/ui/use-toast";
+import {LoadingButton} from "@/components/loading-button";
 
 const formSchema = z.object({
     title: z.string().min(2).max(100),
@@ -114,7 +115,12 @@ export function CreateBookForm({onBookCreated}: {onBookCreated: () => void}) {
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Submit</Button>
+                <LoadingButton
+                    isLoading={form.formState.isSubmitting}
+                    loadingText="Creating..."
+                >
+                    Create
+                </LoadingButton>
             </form>
         </Form>
     );
