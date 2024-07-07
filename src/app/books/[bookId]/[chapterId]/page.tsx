@@ -12,6 +12,8 @@ import {Save, Undo2} from "lucide-react";
 import {Editor} from "@/app/books/[bookId]/[chapterId]/editor";
 import {useState} from "react";
 import {useToast} from "@/components/ui/use-toast";
+import {Skeleton} from "@/components/ui/skeleton";
+import {ChapterLoadingState} from "@/app/books/[bookId]/[chapterId]/chapter-loading-state";
 
 export default function ChapterPage() {
     const {bookId, chapterId} = useParams<{ bookId: Id<"books">, chapterId: Id<"chapters"> }>();
@@ -30,10 +32,6 @@ export default function ChapterPage() {
     const {toast} = useToast();
     const [content, setContent] = useState( "");
 
-    if(!book || !chapter || !chapters) return null;
-    const currentIndex = chapters.findIndex(item => item._id === chapter._id);
-    const nextChapter = chapters[currentIndex + 1];
-    const previousChapter = chapters[currentIndex - 1];
     const handleSave = async () => {
         try {
             await editChapterContent({
@@ -53,6 +51,14 @@ export default function ChapterPage() {
             });
         }
     }
+
+    if (!book || !chapter || !chapters) {
+        return <ChapterLoadingState/>
+    }
+
+    const currentIndex = chapters.findIndex(item => item._id === chapter._id);
+    const nextChapter = chapters[currentIndex + 1];
+    const previousChapter = chapters[currentIndex - 1];
 
     return (
         <section className="w-full space-y-8 py-12">
