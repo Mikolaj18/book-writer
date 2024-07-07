@@ -10,7 +10,6 @@ import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import {Save, Undo2} from "lucide-react";
 import {Editor} from "@/app/books/[bookId]/[chapterId]/editor";
-import {useCurrentEditor} from "@tiptap/react";
 import {useState} from "react";
 import {useToast} from "@/components/ui/use-toast";
 
