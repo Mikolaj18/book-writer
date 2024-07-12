@@ -33,5 +33,4 @@ export function CreateBookButton() {
             </DialogContent>
         </Dialog>
     );
-
 }
