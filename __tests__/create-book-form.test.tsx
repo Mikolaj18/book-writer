@@ -10,10 +10,7 @@ jest.mock("convex/react", () => {
         ...actual,
         useMutation,
     }
-
 });
-
-
 
 it('Should render all input fields and submit button', async () => {
     render(<CreateBookForm onBookCreated={() => {}}/>);
@@ -82,8 +79,4 @@ it("Should errors dissapear when form is valid", async () => {
 
     expect(minLengthErrorMessages).toHaveLength(0);
     expect(fileErrorAfterFileUpload).not.toBeInTheDocument();
-
-    const abc = screen.getByRole("button", {name: "Create"});
-    await user.click(abc);
-    screen.debug()
 });
