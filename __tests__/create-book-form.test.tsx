@@ -53,7 +53,7 @@ it("Should show error message when input is not valid", async () => {
     expect(fileErrorMessage).toBeInTheDocument();
 });
 
-it("Should errors dissapear when form is valid", async () => {
+it("Should errors disappear when form is valid", async () => {
     render(<CreateBookForm onBookCreated={() => {}}/>);
     const user = userEvent.setup();
     const titleField = screen.getByRole("textbox", {name: /title/i});
