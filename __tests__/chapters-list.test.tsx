@@ -38,7 +38,7 @@ it('Should render chapters list', async () => {
     expect(items).toHaveLength(3);
 });
 
-it('Should render chapters list', async () => {
+it('Should call delete chapter mutation', async () => {
     jest.mocked(useOptimistic).mockReturnValue([mockedChapters, jest.fn()]);
     render(<ChapterList chapters={mockedChapters} bookId={"123456" as Id<"books">} />);
 
