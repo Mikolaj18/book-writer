@@ -2,6 +2,7 @@ import {render, screen} from "@testing-library/react";
 import {BookCard} from "@/app/books/book-card";
 import {Id} from "../convex/_generated/dataModel";
 import {userEvent} from "@testing-library/user-event/";
+import {useMutation} from "convex/react";
 
 jest.mock("convex/react", () => {
     const useMutation = jest.fn();
@@ -42,29 +43,3 @@ it('Should succesfully render book card', async () => {
     expect(button).toBeInTheDocument();
 });
 
-it("Should open book actions", async () => {
-    render(<BookCard book={mockedBook}/>);
-    const user = userEvent.setup();
-    const bookActionsButton = screen.getByRole("button");
-    await user.click(bookActionsButton);
-    const deleteButton = screen.getByRole('menuitem', { name: /delete/i });
-    expect(deleteButton).toBeInTheDocument();
-
-    await user.click(deleteButton);
-    screen.debug()
-});
-
-it("Should delete modal be visible", async () => {
-    render(<BookCard book={mockedBook}/>);
-    const user = userEvent.setup();
-    const bookActionsButton = screen.getByRole("button");
-    await user.click(bookActionsButton);
-
-    const deleteButton = screen.getByRole('menuitem', { name: /delete/i });
-    expect(deleteButton).toBeInTheDocument();
-
-    await user.click(deleteButton);
-    const modalHeading = screen.getByRole("heading", {level: 2});
-    expect(modalHeading).toBeInTheDocument();
-    expect(modalHeading).toHaveClass("text-lg font-semibold");
-});

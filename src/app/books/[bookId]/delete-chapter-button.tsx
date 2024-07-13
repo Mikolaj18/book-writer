@@ -39,7 +39,7 @@ export function DeleteChapterButton({chapterId, bookId}: {chapterId: Id<"chapter
     return (
         <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
             <AlertDialogTrigger asChild>
-                <Button variant="destructive">
+                <Button data-testid="delete-item" variant="destructive">
                     <TrashIcon />
                 </Button>
             </AlertDialogTrigger>
