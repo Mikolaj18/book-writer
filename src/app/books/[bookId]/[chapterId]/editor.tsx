@@ -43,7 +43,7 @@ function MenuBar() {
 export function Editor({content, onChange}: {content: string, onChange: (html: string) => void}) {
     const extensions = [StarterKit, Underline];
     return (
-        <div className="rounded-xl bg-white/90 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10 p-4">
+        <div data-testid="rich-editor" className="rounded-xl bg-white/90 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10 p-4">
             <EditorProvider
                 slotBefore={<MenuBar />}
                 extensions={extensions}

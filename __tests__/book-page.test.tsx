@@ -3,6 +3,7 @@ import BookPage from "@/app/books/[bookId]/page";
 import {useQuery} from "convex/react";
 import {useParams} from "next/navigation";
 import {useOptimistic} from "react";
+import {Id} from "../convex/_generated/dataModel";
 
 jest.mock("next/navigation", () => ({
     useParams: jest.fn(),
@@ -55,9 +56,9 @@ it('Should display chapters on page', async () => {
     jest.mocked(useParams).mockReturnValue({bookId: "1"});
 
     const mockedChapters = [
-        {_id: "1", title: "title1", content: " ", coverUrl: "/1015f/MainAfter.jpg", bookId: "1"},
-        {_id: "2", title: "title2", content: " ", coverUrl: "/1015f/MainAfter.jpg", bookId: "1"},
-        {_id: "3", title: "title3", content: " ", coverUrl: "/1015f/MainAfter.jpg", bookId: "1"},
+        {_id: "1" as Id<"chapters">, title: "title1", content: " ", bookId: "123456" as Id<"books">, _creationTime: 123456, index: 1, tokenIdentifier: "exampleUser"},
+        {_id: "2" as Id<"chapters">, title: "title2", content: " ", bookId: "123456" as Id<"books">, _creationTime: 123456, index: 1, tokenIdentifier: "exampleUser"},
+        {_id: "3" as Id<"chapters">, title: "title3", content: " ", bookId: "123456" as Id<"books">, _creationTime: 123456, index: 1, tokenIdentifier: "exampleUser"},
     ];
 
     jest.mocked(useOptimistic).mockReturnValue([mockedChapters, jest.fn()]);
@@ -86,9 +87,9 @@ it('Should display only chapters that belong to specific book', async () => {
     jest.mocked(useParams).mockReturnValue({bookId: "1"});
 
     const mockedChapters = [
-        {_id: "1", title: "title1", content: " ", coverUrl: "/1015f/MainAfter.jpg", bookId: "1"},
-        {_id: "2", title: "title2", content: " ", coverUrl: "/1015f/MainAfter.jpg", bookId: "2"},
-        {_id: "3", title: "title3", content: " ", coverUrl: "/1015f/MainAfter.jpg", bookId: "2"},
+        {_id: "1" as Id<"chapters">, title: "title1", content: " ", bookId: "1" as Id<"books">, _creationTime: 123456, index: 1, tokenIdentifier: "exampleUser"},
+        {_id: "2" as Id<"chapters">, title: "title2", content: " ", bookId: "123456" as Id<"books">, _creationTime: 123456, index: 1, tokenIdentifier: "exampleUser"},
+        {_id: "3" as Id<"chapters">, title: "title3", content: " ", bookId: "123456" as Id<"books">, _creationTime: 123456, index: 1, tokenIdentifier: "exampleUser"},
     ];
 
     jest.mocked(useOptimistic).mockReturnValue([mockedChapters, jest.fn()]);

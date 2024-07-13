@@ -74,7 +74,7 @@ export default function ChapterPage() {
                 nextText="Next Chapter"
                 url={`books/${bookId}`}
             />
-            <Editor content={chapter.content ?? ""} onChange={setContent} />
+            <Editor content={chapter.content ?? ""} onChange={setContent} /> <h1>elo</h1>
             <div className="w-full flex justify-between">
                 <Button asChild>
                     <Link href={`/books/${bookId}`}>
