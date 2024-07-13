@@ -52,24 +52,27 @@ it("Should delete modal be visible", async () => {
     expect(modalHeading).toHaveClass("text-lg font-semibold");
 });
 
-it("Should call useMutation delete function", async () => {
-    render(<BookActions book={mockedBook}/>);
+it("Should call delete book mutation", async () => {
     const mockDeleteBook = jest.fn();
     jest.mocked(useMutation).mockReturnValue(mockDeleteBook as any);
+
+    render(<BookActions book={mockedBook}/>);
     const user = userEvent.setup();
     const bookActionsButton = screen.getByRole("button");
     await user.click(bookActionsButton);
+
     const deleteButton = screen.getByRole('menuitem', { name: /delete/i });
     expect(deleteButton).toBeInTheDocument();
 
     await user.click(deleteButton);
-    const confirmButton = screen.getByRole("button", {name: "Continue"});
 
-    expect(confirmButton).toBeInTheDocument();
+    const submitButton = screen.getByRole("button", {name: "Continue"});
+    await user.click(submitButton);
 
-    await user.click(confirmButton);
     expect(mockDeleteBook).toHaveBeenCalled();
     expect(mockDeleteBook).toHaveBeenCalledWith({
-        bookId: "exampleId",
-    })
+        bookId: "exampleId"
+    });
 });
+
+

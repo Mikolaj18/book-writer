@@ -18,7 +18,6 @@ it("Should display loading state when data is loading", () => {
     render(<BooksPage/>);
     const loaderElements = screen.getAllByTestId('loading-item');
     expect(loaderElements.length).toBeGreaterThan(0);
-    screen.debug();
 });
 
 it("Should display empty state when no books", () => {

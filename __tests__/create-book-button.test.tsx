@@ -15,7 +15,6 @@ jest.mock("convex/react", () => {
 it('Should render create book button', async () => {
     render(<CreateBookButton/>);
     const createBookButton = screen.getByRole("button", {name: "Create new book"});
-    screen.debug();
     expect(createBookButton).toBeInTheDocument();
 });
 
