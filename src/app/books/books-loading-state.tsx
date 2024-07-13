@@ -12,17 +12,17 @@ export function BooksLoadingState() {
                 {new Array(6).fill('').map((_, i) => (
                     <Card key={i} className="p-6 flex flex-col">
                         <div className="flex justify-between items-center">
-                            <Skeleton className="w-[250px] h-[28px]"/>
-                            <Skeleton className="w-[24px] h-[24px]"/>
+                            <Skeleton data-testid="loading-item" className="w-[250px] h-[28px]"/>
+                            <Skeleton data-testid="loading-item" className="w-[24px] h-[24px]"/>
                         </div>
                         <div className="mt-2">
-                            <Skeleton className="w-[130px] h-[20px]"/>
+                            <Skeleton data-testid="loading-item" className="w-[130px] h-[20px]"/>
                         </div>
                         <div className="mt-4">
-                            <Skeleton className="w-full h-[300px]"/>
+                            <Skeleton data-testid="loading-item" className="w-full h-[300px]"/>
                         </div>
                         <div className="mt-3">
-                            <Skeleton className="w-[144px] h-[40px]"/>
+                            <Skeleton data-testid="loading-item" className="w-[144px] h-[40px]"/>
                         </div>
                     </Card>
                 ))}

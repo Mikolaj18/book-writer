@@ -26,7 +26,6 @@ const mockedBook = {
 
 it("Should fields be filled with current book values", async () => {
     render(<EditBookForm book={mockedBook} onBookUpdated={() => {}}/>);
-    const user = userEvent.setup();
     const titleField = screen.getByRole("textbox", {name: /title/i});
     const descriptionField = screen.getByRole("textbox", {name: /description/i});
     const submitButton = screen.getByRole("button", {name: "Update"});

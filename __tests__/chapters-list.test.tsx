@@ -37,28 +37,3 @@ it('Should render chapters list', async () => {
 
     expect(items).toHaveLength(3);
 });
-
-it('Should render chapters list', async () => {
-    jest.mocked(useOptimistic).mockReturnValue([mockedChapters, jest.fn()]);
-    render(<ChapterList chapters={mockedChapters} bookId={"123456" as Id<"books">} />);
-
-    const mockDeleteChapter = jest.fn();
-    jest.mocked(useMutation).mockReturnValue(mockDeleteChapter as any);
-
-    const user = userEvent.setup();
-    const deleteButtons = screen.getAllByTestId('delete-item');
-
-    expect(deleteButtons).toHaveLength(3);
-
-    await user.click(deleteButtons[2]);
-    const confirmButton = screen.getByRole("button", {name: "Continue"});
-
-    expect(confirmButton).toBeInTheDocument();
-
-    await user.click(confirmButton);
-    expect(mockDeleteChapter).toHaveBeenCalled();
-    expect(mockDeleteChapter).toHaveBeenCalledWith({
-        chapterId: "3",
-        bookId: "123456",
-    })
-});

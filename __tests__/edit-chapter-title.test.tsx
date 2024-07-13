@@ -33,7 +33,6 @@ it("Should form render with filled value", async () => {
    expect(titleField).toHaveValue("Example Title");
 
    expect(submitButton).toBeInTheDocument();
-   screen.debug();
 });
 
 it("Should call update chapter title mutation", async () => {
