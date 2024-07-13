@@ -43,7 +43,7 @@ it("Should error disappear when form is valid", async () => {
     await user.click(submitButton);
 
     const errorMessage = screen.getByText("String must contain at least 2 character(s)");
-    expect(errorMessage).toBeInTheDocument()
+    expect(errorMessage).toBeInTheDocument();
 
     await user.type(titleField, "Example chapter title");
 
